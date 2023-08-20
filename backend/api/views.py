@@ -280,6 +280,7 @@ class IngredientsViewSet(
     serializer_class = IngredientSerializer
     filterset_class = IngredientFilter
 
+
 @api_view(['post'])
 def set_password(request):
     """Изменить пароль."""
