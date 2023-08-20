@@ -264,6 +264,7 @@ class TagsViewSet(
         PermissionAndPaginationMixin,
         viewsets.ModelViewSet):
     """Список тэгов."""
+    pagination_class = None
 
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
@@ -273,11 +274,11 @@ class IngredientsViewSet(
         PermissionAndPaginationMixin,
         viewsets.ModelViewSet):
     """Список ингредиентов."""
+    pagination_class = None
 
     queryset = Ingredient.objects.all()
     serializer_class = IngredientSerializer
     filterset_class = IngredientFilter
-
 
 @api_view(['post'])
 def set_password(request):

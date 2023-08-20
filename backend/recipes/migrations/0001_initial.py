@@ -26,6 +26,7 @@ class Migration(migrations.Migration):
                 'verbose_name': 'Ингредиент',
                 'verbose_name_plural': 'Ингредиенты',
                 'ordering': ['name'],
+                'db_table': 'baseapp_ingredient',
             },
         ),
         migrations.CreateModel(
