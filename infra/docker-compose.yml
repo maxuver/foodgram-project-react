@@ -10,7 +10,7 @@ services:
       - ./.env
 
   backend:
-    image: maxuver/foodgram_backend:latest
+    build: ../backend  # Изменил на локальный build
     restart: always
     volumes:
       - data_value:/code/data/
