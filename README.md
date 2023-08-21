@@ -72,7 +72,7 @@ sudo docker-compose exec web python manage.py load_data_csv --path <file_path> -
 
 Clone the repository and change into it on the command line:
 
-``` git@github.com:mariyabykova/foodgram-project-react.git ```
+``` git@github.com:maxuver/foodgram-project-react.git ```
 ``` cd foodgram-project-react ```
 
 Run docker-compose:
@@ -114,7 +114,7 @@ http://localhost/
 
 Clone the repository and change into it on the command line:
 
-``` git@github.com:mariyabykova/foodgram-project-react.git ```
+``` git@github.com:maxuver/foodgram-project-react.git ```
 ``` cd foodgram-project-react ```
 
 Create and activate virtual environment:
