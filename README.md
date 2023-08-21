@@ -125,7 +125,7 @@ Create and activate virtual environment:
      ``` source venv/scripts/activate ```
 
 * If you have Windows:
-     ``` source venv/scripts/activate ```
+     ``` source venv/Scripts/activate ```
     
 ``` python -m pip install --upgrade pip ```
 
