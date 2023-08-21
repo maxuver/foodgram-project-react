@@ -119,15 +119,15 @@ Clone the repository and change into it on the command line:
 
 Create and activate virtual environment:
 
-``` python3 -m venv venv ```
+``` python -m venv venv ```
 
 * If you have Linux/macOS:
-     ``` source venv/bin/activate ```
+     ``` source venv/scripts/activate ```
 
 * If you have Windows:
      ``` source venv/Scripts/activate ```
     
-``` python3 -m pip install --upgrade pip ```
+``` python -m pip install --upgrade pip ```
 
 Install dependencies from requirements file:
 
@@ -135,11 +135,11 @@ Install dependencies from requirements file:
 
 Run migrations:
 
-``` python3 manage.py migrate ```
+``` python manage.py migrate ```
 
 Run project:
 
-``` python3 manage.py runserver ```
+``` python manage.py runserver ```
 
 ### The following endpoints are available in the API:
 
