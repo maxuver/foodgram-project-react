@@ -40,3 +40,30 @@ class User(AbstractUser):
 
     def str(self):
         return self.username
+
+
+class Subscribe(models.Model):
+    user = models.ForeignKey(
+        User,
+        verbose_name='Подписчик',
+        related_name='subscriber',
+        on_delete=models.CASCADE,
+    )
+
+    author = models.ForeignKey(
+        User,
+        verbose_name='Автор',
+        related_name='subscribing',
+        on_delete=models.CASCADE,
+    )
+
+    class Meta:
+        ordering = ('-id',)
+        constraints = (
+            UniqueConstraint(
+                fields=('user', 'author'),
+                name='unique_subscription'
+            ),
+        )
+        verbose_name = 'Подписка'
+        verbose_name_plural = 'Подписки'
