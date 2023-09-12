@@ -21,8 +21,10 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'api.apps.ApiConfig',
     'rest_framework',
+    'rest_framework.authtoken',
     'djoser',
     'recipes.apps.RecipesConfig',
+    'colorfield',
 
 ]
 
@@ -37,6 +39,20 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.AllowAny',
+    ],
+
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+
+
+    'DEFAULT_PAGINATION_CLASS': 'api.paginations.ProjectPagination',
+        'PAGE_SIZE': 6,
+}
 
 ROOT_URLCONF = 'foodgram.urls'
 
