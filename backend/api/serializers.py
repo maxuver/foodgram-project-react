@@ -1,10 +1,12 @@
-from users.models import User
+from users.models import User, Subscribe
 from djoser.serializers import UserSerializer
 from recipes.models import Ingredient, Tag
 from rest_framework.serializers import ModelSerializer
+from rest_framework.fields import SerializerMethodField
 
 
 class CustomUserSerializer(UserSerializer):
+    is_subscribed = SerializerMethodField(read_only=True)
 
     class Meta:
         model = User
@@ -14,7 +16,13 @@ class CustomUserSerializer(UserSerializer):
             'username',
             'first_name',
             'last_name',
+            'is_subscribed',
         )
+
+    def get_is_subscribed(self, obj):
+        user = self.context.get('request').user
+        return (user.is_authenticated
+                and bool(Subscribe.objects.filter(user=user, author=obj)))
 
 
 class IngredientSerializer(ModelSerializer):
