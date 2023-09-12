@@ -1,14 +1,16 @@
 from users.models import User, Subscribe
 from djoser.views import UserViewSet
-from .serializers import CustomUserSerializer, IngredientSerializer, TagSerializer, SubscribeSerializer
+from .serializers import CustomUserSerializer, IngredientSerializer, TagSerializer, SubscribeSerializer, RecipeReadSerializer
 from recipes.models import Ingredient, Tag, Recipe
-from rest_framework.viewsets import ReadOnlyModelViewSet
+from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from .paginations import ProjectPagination
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import status
+from .permissions import AuthorOrReadOnly
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 class CustomUserViewSet(UserViewSet):
@@ -69,3 +71,11 @@ class TagViewSet(ReadOnlyModelViewSet):
     queryset = Tag.objects.all()
     serializer_class = TagSerializer
     pagination_class = None
+
+
+class RecipeViewSet(ModelViewSet):
+    queryset = Recipe.objects.all()
+    permission_classes = (AuthorOrReadOnly,)
+    pagination_class = ProjectPagination
+    filter_backends = (DjangoFilterBackend,)
+    serializer_class = RecipeReadSerializer

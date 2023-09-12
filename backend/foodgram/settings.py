@@ -25,7 +25,7 @@ INSTALLED_APPS = [
     'djoser',
     'recipes.apps.RecipesConfig',
     'colorfield',
-
+    'django_filters'
 ]
 
 AUTH_USER_MODEL = 'users.User'
