@@ -1,12 +1,13 @@
+import os
 from pathlib import Path
 
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-SECRET_KEY = 'p&l%385148kslhtyn^##a1)ilz@4zqj=rq&agdol^##zgl9(vs'
+SECRET_KEY = os.getenv('SECRET_KEY', ' ')
 
-DEBUG = True
+DEBUG = int(os.getenv('DEBUG', '1'))
 
 ALLOWED_HOSTS = []
 
