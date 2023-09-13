@@ -20,7 +20,7 @@ class RecipeAdmin(admin.ModelAdmin):
 
 
 @admin.register(ShoppingCart)
-class RecipeAdmin(admin.ModelAdmin):
+class ShoppingCartAdmin(admin.ModelAdmin):
     pass
 
 
