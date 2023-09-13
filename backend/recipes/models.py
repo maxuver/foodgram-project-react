@@ -105,7 +105,7 @@ class Recipe(models.Model):
     def str(self):
         return self.name
 
- 
+
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(
         Recipe,
@@ -167,7 +167,7 @@ class Favourite(models.Model):
         ]
 
     def str(self):
-        return f'{self.user} добавил "{self.recipe}" в Избранное' 
+        return f'{self.user} добавил "{self.recipe}" в Избранное'
 
 
 class ShoppingCart(models.Model):
@@ -193,7 +193,7 @@ class ShoppingCart(models.Model):
                 fields=['user', 'recipe'],
                 name='unique_shopping_cart'
             )
-        ] 
+        ]
 
     def str(self):
         return f'{self.user} добавил "{self.recipe}" в Корзину покупок'

@@ -26,6 +26,7 @@ class RecipeAdmin(admin.ModelAdmin):
 class FavouriteAdmin(admin.ModelAdmin):
     pass
 
+
 @admin.register(RecipeIngredients)
 class RecipeIngredientsAdmin(admin.ModelAdmin):
     pass
