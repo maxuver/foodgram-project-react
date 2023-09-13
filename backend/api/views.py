@@ -1,5 +1,3 @@
-import datetime
-from django.db.models import Sum
 from users.models import User, Subscribe
 from djoser.views import UserViewSet
 from .serializers import (CustomUserSerializer, IngredientSerializer,
@@ -7,7 +5,7 @@ from .serializers import (CustomUserSerializer, IngredientSerializer,
                           RecipeReadSerializer, RecipeWriteSerializer,
                           RecipeShortSerializer)
 from recipes.models import (Ingredient, Tag, Recipe,
-                            RecipeIngredients, Favourite, ShoppingCart)
+                            Favourite, ShoppingCart)
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from .paginations import ProjectPagination
 from rest_framework.decorators import action
