@@ -186,7 +186,8 @@ class RecipeWriteSerializer(ModelSerializer):
 
     def validate_tags(self, value):
         if not value:
-            raise exceptions.ValidationError({'tags': 'Нужен хотя бы один тег!'})
+            raise exceptions.ValidationError(
+                {'tags': 'Нужен хотя бы один тег!'})
         tags_list = []
         for tag in value:
             if tag in tags_list:

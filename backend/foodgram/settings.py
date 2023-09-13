@@ -26,7 +26,7 @@ INSTALLED_APPS = [
     'djoser',
     'recipes.apps.RecipesConfig',
     'colorfield',
-    'django_filters'
+    'django_filters',
 ]
 
 AUTH_USER_MODEL = 'users.User'
@@ -52,7 +52,7 @@ REST_FRAMEWORK = {
 
 
     'DEFAULT_PAGINATION_CLASS': 'api.paginations.ProjectPagination',
-        'PAGE_SIZE': 6,
+    'PAGE_SIZE': 6,
 }
 
 ROOT_URLCONF = 'foodgram.urls'
