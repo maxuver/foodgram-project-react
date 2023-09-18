@@ -1,8 +1,8 @@
 158.160.76.223
 
-login: sebastian@sebastian.com
+login: vpupkin@yandex.ru
 
-password: hhhhhhhh1!
+password: Qwerty123Qwerty123
 
 ### Description
 The "Foodgram" project is a "grocery assistant". On this service, authorized users can publish recipes, subscribe to publications of other users, add favorite recipes to the "Favorites" list, and before going to the store, download a summary list of products needed to prepare one or more selected dishes. Unauthorized users can view recipes and authors' pages.
