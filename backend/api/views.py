@@ -1,22 +1,22 @@
-from users.models import User, Subscribe
+from django.shortcuts import get_object_or_404
+from django.http import HttpResponse
+from django_filters.rest_framework import DjangoFilterBackend
+from recipes.models import (Ingredient, Tag, Recipe,
+                            Favourite, ShoppingCart)
+from rest_framework.decorators import action
+from rest_framework import status
+from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
+from rest_framework.response import Response
+from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from djoser.views import UserViewSet
 from .serializers import (CustomUserSerializer, IngredientSerializer,
                           TagSerializer, SubscribeSerializer,
                           RecipeReadSerializer, RecipeWriteSerializer,
                           RecipeShortSerializer)
-from recipes.models import (Ingredient, Tag, Recipe,
-                            Favourite, ShoppingCart)
-from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
-from .paginations import ProjectPagination
-from rest_framework.decorators import action
-from rest_framework.permissions import IsAuthenticated, SAFE_METHODS
-from django.shortcuts import get_object_or_404
-from rest_framework.response import Response
-from rest_framework import status
+from users.models import User, Subscribe
 from .permissions import AuthorOrReadOnly
-from django_filters.rest_framework import DjangoFilterBackend
 from .filters import IngredientFilter, RecipeFilter
-from django.http import HttpResponse
+from .paginations import ProjectPagination
 from .utils import create_shopping_cart
 
 
@@ -38,7 +38,7 @@ class CustomUserViewSet(UserViewSet):
             serializer = SubscribeSerializer(
                 author,
                 data=request.data,
-                context={"request": request}
+                context={'request': request}
             )
             serializer.is_valid(raise_exception=True)
             Subscribe.objects.create(user=user, author=author)
