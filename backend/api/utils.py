@@ -1,6 +1,6 @@
 from datetime import datetime
-from recipes.models import RecipeIngredients
 from django.db.models import Sum
+from recipes.models import RecipeIngredients
 
 
 def create_shopping_cart(user, request):

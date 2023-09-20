@@ -4,6 +4,11 @@ from .models import (Ingredient, Tag, Recipe,
                      RecipeIngredients)
 
 
+class RecipeIngredientsInline(admin.TabularInline):
+    model = RecipeIngredients
+    min_num = 1
+
+
 @admin.register(Ingredient)
 class IngredientAdmin(admin.ModelAdmin):
     pass
@@ -16,7 +21,7 @@ class TagAdmin(admin.ModelAdmin):
 
 @admin.register(Recipe)
 class RecipeAdmin(admin.ModelAdmin):
-    pass
+    inlines = (RecipeIngredientsInline, )
 
 
 @admin.register(ShoppingCart)
