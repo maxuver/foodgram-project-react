@@ -7,7 +7,7 @@ from rest_framework.fields import SerializerMethodField, IntegerField
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
 from recipes.models import Ingredient, Tag, Recipe, RecipeIngredients
-from users.models import User, Subscribe
+from users.models import User
 
 MIN_AMOUNT = 1
 MAX_AMOUNT = 32000

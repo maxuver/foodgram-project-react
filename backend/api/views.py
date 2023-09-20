@@ -27,6 +27,7 @@ from recipes.models import (
 from .paginations import ProjectPagination
 from .permissions import AuthorOrReadOnly
 from .filters import IngredientFilter, RecipeFilter
+from .utils import create_shopping_cart
 
 
 class CustomUserViewSet(UserViewSet):
