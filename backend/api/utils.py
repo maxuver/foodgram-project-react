@@ -18,9 +18,9 @@ def create_shopping_cart(user, request):
         f'Дата: {today:%Y-%m-%d}\n\n'
     )
     shopping_list += '\n'.join([
-        f'- {ingredient['ingredient__name']} '
-        f'({ingredient['ingredient__measurement_unit']})'
-        f' - {ingredient['cart_amount']}'
+        f'- {ingredient["ingredient__name"]} '
+        f'({ingredient["ingredient__measurement_unit"]})'
+        f' - {ingredient["cart_amount"]}'
         for ingredient in ingredients
     ])
     shopping_list += f'\n\nFoodgram - {today:%Y}'
