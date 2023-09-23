@@ -7,7 +7,10 @@ from rest_framework.fields import SerializerMethodField, IntegerField
 from rest_framework.relations import PrimaryKeyRelatedField
 from rest_framework.serializers import ModelSerializer
 from recipes.models import Ingredient, Tag, Recipe, RecipeIngredients
-from users.models import User, Subscribe
+from users.models import User
+
+MIN_AMOUNT = 1
+MAX_AMOUNT = 32000
 
 
 class CustomUserSerializer(UserSerializer):
@@ -25,9 +28,9 @@ class CustomUserSerializer(UserSerializer):
         )
 
     def get_is_subscribed(self, obj):
-        user = self.context.get('request').user
-        return (user.is_authenticated
-                and bool(Subscribe.objects.filter(user=user, author=obj)))
+        user = self.context['request'].user
+        return user.is_authenticated and obj.subscribing.filter(
+            user=user).exists()
 
 
 class SubscribeSerializer(CustomUserSerializer):
@@ -42,8 +45,8 @@ class SubscribeSerializer(CustomUserSerializer):
 
     def validate(self, data):
         author = self.instance
-        user = self.context.get('request').user
-        if Subscribe.objects.filter(author=author, user=user).exists():
+        user = self.context['request'].user
+        if user.subscriber.filter(author=author).exists():
             raise exceptions.ValidationError(
                 detail='Нельзя оформить подписку повторно!',
                 code=status.HTTP_400_BAD_REQUEST
@@ -59,7 +62,7 @@ class SubscribeSerializer(CustomUserSerializer):
         return obj.recipes.count()
 
     def get_recipes(self, obj):
-        request = self.context.get('request')
+        request = self.context['request']
         limit = request.GET.get('recipes_limit')
         recipes = obj.recipes.all()
         if limit:
@@ -127,18 +130,23 @@ class RecipeReadSerializer(ModelSerializer):
         return ingredients
 
     def get_is_favorited(self, obj):
-        user = self.context.get('request').user
-        return (user.is_authenticated
-                and user.favorites.filter(recipe=obj).exists())
+        user = self.context['request'].user
+        return user.is_authenticated and user.favorites.filter(
+            recipe=obj).exists()
 
     def get_is_in_shopping_cart(self, obj):
-        user = self.context.get('request').user
-        return (user.is_authenticated
-                and user.shopping_cart.filter(recipe=obj).exists())
+        user = self.context['request'].user
+        return user.is_authenticated and user.shopping_cart.filter(
+            recipe=obj).exists()
 
 
 class IngredientInRecipeWriteSerializer(ModelSerializer):
     id = IntegerField(write_only=True)
+    amount = IntegerField(
+        write_only=True,
+        min_value=MIN_AMOUNT,
+        max_value=MAX_AMOUNT
+    )
 
     class Meta:
         model = RecipeIngredients
@@ -150,6 +158,10 @@ class RecipeWriteSerializer(ModelSerializer):
     author = CustomUserSerializer(read_only=True)
     ingredients = IngredientInRecipeWriteSerializer(many=True)
     image = Base64ImageField()
+    cooking_time = IntegerField(
+        min_value=MIN_AMOUNT,
+        max_value=MAX_AMOUNT
+    )
 
     class Meta:
         model = Recipe
@@ -169,32 +181,32 @@ class RecipeWriteSerializer(ModelSerializer):
             raise exceptions.ValidationError({
                 'ingredients': 'Нужно выбрать хотя бы один ингредиент!'
             })
-        ingredients_list = []
+        ingredients_set = set()
         queryset = Ingredient.objects.all()
+        '''Получаем queryset, чтобы не делать много запросов в БД'''
         for item in value:
             ingredient = get_object_or_404(queryset, id=item['id'])
-            if ingredient in ingredients_list:
+            '''Проверяем, что добавляемый ингредиент существует в БД
+            (через api можно попробовать создать рецепт с несуществующим
+            в БД ингредиентом)'''
+            if ingredient in ingredients_set:
                 raise exceptions.ValidationError({
                     'ingredients': 'Ингридиенты не могут дублироваться!'
                 })
-            if int(item['amount']) <= 0:
-                raise exceptions.ValidationError({
-                    'amount': 'Количество ингредиентов не может быть 0!'
-                })
-            ingredients_list.append(ingredient)
+            ingredients_set.add(ingredient)
         return value
 
     def validate_tags(self, value):
         if not value:
             raise exceptions.ValidationError(
                 {'tags': 'Нужен хотя бы один тег!'})
-        tags_list = []
+        tags_set = set()
         for tag in value:
-            if tag in tags_list:
+            if tag in tags_set:
                 raise exceptions.ValidationError({
                     'tags': 'Теги не могут повторяться!'
                 })
-            tags_list.append(tag)
+            tags_set.add(tag)
         return value
 
     def create_ingredients_amounts(self, ingredients, recipe):
